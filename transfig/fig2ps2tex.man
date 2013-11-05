@@ -1,0 +1,1 @@
+../doc/fig2ps2tex.1

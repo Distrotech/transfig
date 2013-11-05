@@ -1,0 +1,5 @@
+/* 30 degrees crosshatch */
+#define crosshatch30_width 8
+#define crosshatch30_height 4
+static unsigned char crosshatch30_bits[] = {
+   0x81, 0x66, 0x18, 0x66};

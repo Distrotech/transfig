@@ -1,0 +1,49 @@
+% japanese.ps for fig2dev 3.2
+%
+% This file will inserted into PostScript output by fig2dev
+% when Japanese text is included in the file.
+% This code try to use HeiseiMin-W3-EUC-H and HeiseiKakuGo-W5-EUC-H
+% if Ryumin-Light-EUC-H is not supported.  --- T.Sato, 1999/3/27
+
+/has_morisawa_font true def
+FontDirectory /Ryumin-Light-EUC-H known not {
+  systemdict /resourcestatus known {
+    /Ryumin-Light-EUC-H /Font resourcestatus {
+      pop pop
+    } {
+      /has_morisawa_font false def
+    } ifelse
+  } if
+} if
+
+16 dict begin
+  /FontName /CompositeRoman def  /FontType 0 def
+  /WMode 0 def    /FMapType 3 def  /FontMatrix matrix def
+  /Encoding [0 1] def
+  has_morisawa_font {
+    /FDepVector [ /Times-Roman findfont
+        /Ryumin-Light-EUC-H findfont ] def
+  } {
+    /FDepVector [ /Times-Roman findfont
+        /HeiseiMin-W3-EUC-H findfont ] def
+  } ifelse
+  FontName currentdict
+  end
+definefont pop
+
+16 dict begin
+  /FontName /CompositeBold def  /FontType 0 def
+  /WMode 0 def    /FMapType 3 def  /FontMatrix matrix def
+  /Encoding [0 1] def
+  has_morisawa_font {
+    /FDepVector [ /Times-Bold findfont
+        /GothicBBB-Medium-EUC-H findfont ] def
+  } {
+    /FDepVector [ /Times-Bold findfont
+        /HeiseiKakuGo-W5-EUC-H findfont ] def
+  } ifelse
+  FontName currentdict
+  end
+definefont pop
+
+% end of japanese.ps

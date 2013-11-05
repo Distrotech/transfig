@@ -1,0 +1,5 @@
+/* vertical lines */
+#define vertical_width 8
+#define vertical_height 8
+static unsigned char vertical_bits[] = {
+   0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88};

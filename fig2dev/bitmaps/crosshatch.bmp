@@ -1,0 +1,5 @@
+/* crosshatch */
+#define crosshatch_width 8
+#define crosshatch_height 4
+static unsigned char crosshatch_bits[] = {
+   0xff, 0x88, 0x88, 0x88};

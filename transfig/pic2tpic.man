@@ -1,0 +1,1 @@
+../doc/pic2tpic.1

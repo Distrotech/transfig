@@ -1,0 +1,5 @@
+/* 45 degrees left diagonal */
+#define left45_width 8
+#define left45_height 8
+static unsigned char left45_bits[] = {
+   0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};

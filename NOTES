@@ -1,0 +1,52 @@
+A brief history of Fig translation programs.
+
+Fig2dev is derived from f2p, the original program written by the author of Fig,
+Supoj Sutanthavibul of the University of Texas at Austin, to translate Fig
+code to PIC.  The devlopment is somewhat complex.
+
+Supoj adapted f2p for PostScript ouput: f2ps.
+
+Micah Beck adapted f2p for PiCTeX output: fig2tex.
+
+Frank Schmuck, then a graduate student at Cornell, adapted fig2tex for
+LaTeX picture environment output: fig2latex.
+
+Frank also enhanced Fig, giving us Fig-FS.  Micah in turn extended the
+definition of Fig code and added corresponding features to Fig-FS.
+Micah implemented this extension (TFX) in fig2tex, and in fig2ps, which
+is an adaption of f2ps.
+
+Conrad Kwok, then of the University of California at Davis, adapted
+fig2tex for (E)EPIC output: fig2epic.
+
+He also enhanced f2p to support the TFX extension: fig2pic.
+
+Micah then reorganized the five programs named fig2* into drivers for
+a single tranlation program: fig2dev.
+
+As of October 1992, I have taken over the maintenence and distribution of 
+the TransFig package from Micah.
+
+*************************************************************************
+Please send email about any questions/bug fixes/contributions etc. about
+TransFig or xfig to bvsmith@lbl.gov.
+
+Brian V. Smith
+Lawrence Berkeley National Laboratory
+bvsmith@lbl.gov
+*************************************************************************
+
+Note that although I work at Lawrence Berkeley Laboratory (LBL) I don't speak 
+for LBL nor do I represent LBL with respect to my work on TransFig and xfig,
+nor does LBNL make any representations about the suitability of this software 
+for any purpose.
+Here is the legal part:
+
+THE LAWRENCE BERKELEY NATIONAL LABORATORY DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS, IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL,
+INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+

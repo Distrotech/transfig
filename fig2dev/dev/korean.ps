@@ -1,0 +1,54 @@
+% korean.ps for fig2dev 3.2
+%
+% This file will inserted into PostScript output by fig2dev
+% when Korean text is included in the file.
+% You may need to modify this to fit your environment.
+%
+% This code will try to use Munhwa-Regular-KSC-EUC-H and
+% MunhwaGothic-Bold-KSC-EUC-H first.  If Munhwa fonts are not
+% available, it try to use HLaTeX-Myoungjo-Regular-KSC-EUC-H
+% and HLaTeX-Gothic-Regular-KSC-EUC-H instead.
+% --- T.Sato, 1999/8/13
+
+/has_munhwa_font true def
+FontDirectory /Munhwa-Regular-KSC-EUC-H known not {
+  systemdict /resourcestatus known {
+    /Munhwa-Regular-KSC-EUC-H /Font resourcestatus {
+      pop pop
+    } {
+      /has_munhwa_font false def
+    } ifelse
+  } if
+} if
+
+16 dict begin
+  /FontName /CompositeRoman def  /FontType 0 def
+  /WMode 0 def    /FMapType 3 def  /FontMatrix matrix def
+  /Encoding [0 1] def
+  has_munhwa_font {
+    /FDepVector [ /Times-Roman findfont
+        /Munhwa-Regular-KSC-EUC-H findfont ] def
+  } {
+    /FDepVector [ /Times-Roman findfont
+        /HLaTeX-Myoungjo-Regular-KSC-EUC-H findfont ] def
+  } ifelse
+  FontName currentdict
+  end
+definefont pop
+
+16 dict begin
+  /FontName /CompositeBold def  /FontType 0 def
+  /WMode 0 def    /FMapType 3 def  /FontMatrix matrix def
+  /Encoding [0 1] def
+  has_munhwa_font {
+    /FDepVector [ /Times-Bold findfont
+        /MunhwaGothic-Bold-KSC-EUC-H findfont ] def
+  } {
+    /FDepVector [ /Times-Bold findfont
+        /HLaTeX-Gothic-Regular-KSC-EUC-H findfont ] def
+  } ifelse
+  FontName currentdict
+  end
+definefont pop
+
+% end of korean.ps

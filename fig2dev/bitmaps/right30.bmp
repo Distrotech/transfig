@@ -1,0 +1,5 @@
+/* 30 degrees right diagonal */
+#define right30_width 8
+#define right30_height 4
+static unsigned char right30_bits[] = {
+   0xc0, 0x30, 0x0c, 0x03};

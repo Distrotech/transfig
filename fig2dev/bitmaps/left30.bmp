@@ -1,0 +1,5 @@
+/* 30 degrees left diagonal */
+#define left30_width 8
+#define left30_height 4
+static unsigned char left30_bits[] = {
+   0x03, 0x0c, 0x30, 0xc0};

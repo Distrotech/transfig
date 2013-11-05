@@ -1,0 +1,186 @@
+TransFig is a set of tools for creating TeX documents with graphics
+which are portable, in the sense that they can be printed in a wide
+variety of environments.
+
+The transfig directory contains the source for the transfig command
+which generates a Makefile which translates Fig code to various graphics
+description languages using the fig2dev program.  In previous releases,
+this command was implemented as a shell script.
+
+The fig2dev directory contains a general program for translating from
+Fig code to other graphics desciption languages.  The dev subdirectory
+contains a library of output drivers used by fig2dev.
+
+Drivers currently exist for the following graphics langauges:
+(E)EPIC macros, LaTeX picture environment, PIC, PiCTeX, PostScript, and TeXtyl.
+Fig2dev can be configured with a subset of these drivers
+
+The doc directory contains man pages for fig2dev and for the transfig command.
+The subdirectory doc/manual contains a manual for using TransFig to create
+documents with portable graphics.  The manual also contains a reference
+guide describing Fig code in detail, and a description of TFX, an extension to
+Fig code which is supported by the translators in this package.
+
+The file LATEX.AND.XFIG contains a useful tutorial on using xfig with LaTex.
+It was written by Eric Masson (McGill University)
+
+TransFig and its companion xfig are available from:
+	ftp://epb.lbl.gov/xfig
+	http://www.xfig.org/xfigdist
+	ftp://ftp.x.org/contrib/applications/drawing_tools
+	ftp://ftp.cdrom.com/pub/X11/contrib/applications/drawing_tools
+	from any CTAN machine e.g. ftp://ftp.tex.ac.uk/pub/archive/graphics.
+
+*************************************************************************
+To make TransFig:
+
+1. Edit fig2dev/Imakefile and fig2dev/dev/Imakefile to make any changes
+	noted below.  At least make sure that you point XFIGLIBDIR to the
+	same directory that xfig uses (usually /usr/local/lib/xfig).  This
+	will be used to hold the bitmaps directory for the tk fill patterns.
+2. Do a "xmkmf" to create the top level Makefile from the Imakefile
+3. Do a "make Makefiles"   (That's with an "s")
+4. Do a "make" to make the programs
+	**** This MUST be done before "make install" ****
+5. Do a "make install" to install them in the system
+6. Do a "make install.man" to put the manual pages in the proper directories
+
+o If you want to install transfig and fig2dev in a directory other than the
+  default X11 binary directory, uncomment "BINDIR=<directory>" in both
+  transfig/Imakefile and fig2dev/Imakefile, and change <directory> to the full
+  path of the directory where you want the programs to be installed.
+
+o You may also have to redefine MKDIRHIER because "make" looks for it relative
+  to the BINDIR variable.  Set it to: "MKDIRHIER = /bin/sh <path>/mkdirhier"
+  where <path> is the path to mkdirhier. This should be changed in both the
+  transfig/Imakefile and fig2dev/Imakefile.
+
+o To change where the standard "man" pages go, uncommand and change MANDIR=<path>
+  in both the transfig/Imakefile and fig2dev/Imakefile.
+
+o Uncomment the USELATEX2E flag in the transfig/Imakefile file to use the
+  \\usepackage{} command for LaTeX2e.
+  The default is to use \\documentstyle{} for LaTeX209.
+
+o In fig2dev/Imakefile for the described features:
+
+  o Comment out the DDNFSS = ... line if you don't want NFSS2 font selection
+    for LaTeX texts.
+  o Comment out the DDLATEX2E_GRAPHICS = ... line if you don't want to use the
+    standard graphics package distributed w/ LaTeX2e.
+  o UNcomment the DDEPSFIG = ... line if you want to use the deprecated epsfig macros
+    distributed w/ LaTeX2e (DDLATEX2E_GRAPHICS must also be defined).
+
+    Hint: Users of LaTeX2e will probably want to include both of these
+    options; users of LaTeX 2.09 will probably want to include neither.
+
+o If your system doesn't have strcasecmp() and/or strncasecmp(), uncomment the
+  lines in the Imakefile with HAVE_NO_STRCASECMP and HAVE_NO_STRNCASECMP.
+
+o If your system doesn't have strstr(3) uncomment the "#define NOSTRSTR"
+
+o Make sure that you point XFIGLIBDIR to the same directory that xfig uses
+  (usually /usr/local/lib/xfig).  This will be used to hold the bitmaps
+  directory for the tk fill patterns.
+
+o If you *don't* want PNG support, comment out the #define USEPNG line in
+  the Imakefile.
+
+o If you want to be able to import PNG images then:
+  o Uncomment the "#define USEPNG" line in the Imakefile.
+  o You need the PNG library (-lpng) and the zlib (-lz) compression library.
+    You can find the PNG sources at http://www.libpng.org/pub/png/libpng.html and
+    the zlib sources at ftp://ftp.cdrom.com/pub/infozip/zlib.
+
+o If you want to be able to translate Fig files that have imported XPM files
+  (color pixmaps) uncomment the "#define USEXPM" line in fig2dev/Imakefile.
+  You need version 3.4c or newer of the XPM package.
+  This is available from ftp.x.org in /contrib/libraries.
+
+o If your system doesn't have the strerror() function then uncomment the
+  "#define NEED_STRERROR" in the Imakefile.
+
+o If your system can open files in text and binary modes and has the setmode()
+  function, uncomment HAVE_SETMODE.  This probably only applies to Windows 9x/NT
+  systems.
+
+o Look in the Imakefiles to see if any options are relevant to your system.
+
+o If you use epic, eepic or tpic you must have compiled your dvips and xvdi
+  with the tpic support (-DTPIC for dvips).
+
+o To use the -b (binary) option for CGM export, the ralcgm program is required.
+  This is available from ftp://ftp.cc.rl.ac.uk/pub/graphics/ralcgm/
+
+***************
+IMPORTANT NOTE:
+
+o As of version 3.2.0 (final), fig2dev has taken over the translating of Fig
+  to the bitmap formats (ACAD, GIF, JPEG, XPM, XBM, PCX, TIFF).
+  In the past, xfig itself rendered the bitmap formats.  This change was made
+  to have a more consistent look and better fonts.  First, the Fig file is
+  translated to PostScript, then ghostscript is used to render the image to
+  the final format in the case of JPEG, PCX and TIFF, or to PPM (portable
+  pixmap) after which the appropriate ppmtoXXX filter is used to get ACAD, GIF,
+  XPM and XBM.  If smoothing is done (-S option) when jpeg output is used, the
+  "ppmtojpeg" program must be installed from the netpbm package.
+
+  o You need the netpbm package version 9.1 (or later), which you can find at
+    http://download.sourceforge.net/netpbm
+
+  o You will also need ghostscript, which can be found on ftp.cs.wisc.edu in
+    /ghost/aladdin, *AND* it must be compiled with the pcx256, jpeg, png256,
+    ppmraw and tiff24nc drivers.
+
+*************************************************************************
+Please send email about any questions/bug fixes/contributions etc. about
+TransFig or xfig to bvsmith@lbl.gov.
+
+Brian V. Smith
+Lawrence Berkeley National Laboratory
+bvsmith@lbl.gov
+*************************************************************************
+
+Note that although I work at Lawrence Berkeley Laboratory (LBL) I don't speak
+for LBL nor do I represent LBL with respect to my work on TransFig and xfig,
+nor does LBNL make any representations about the suitability of this software
+for any purpose.
+Here is the legal part:
+
+THE LAWRENCE BERKELEY NATIONAL LABORATORY DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS, IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL,
+INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+********************************
+PROBLEMS and POSSIBLE SOLUTIONS:
+********************************
+
+--------------------------------------------------------------------------------
+Pattern shading (e.g. bricks, shingles, etc.) only work for PostScript output.
+--------------------------------------------------------------------------------
+
+Solaris 2.x users:
+
+You you must link with -lnsl because gethostname() is used.
+
+The Solaris C compiler version 4.2 has a bug in the optimizer when level -O4 or
+-O3 is used.  Either change the Makefile to use -O2 or less, or change your
+imake config files to specify -O2 or lower then do "xmkmf" again and "make".
+
+--------------------------------------------------------------------------------
+HP systems:
+
+You may need to reduce optimization to +O2 instead of +O3.
+The symptom is that not all of the objects in compound objects print.
+________________________________________________________________________________
+PROBLEM:
+	Arc-boxes don't appear correct when viewing exported PostScript with
+	ghostview or ghostscript.
+
+POSSIBLE CAUSE AND SOLUTION:
+	Ghostscript version 4.01 has a bug with the arcto operators.
+	Get version 4.03 or newer.

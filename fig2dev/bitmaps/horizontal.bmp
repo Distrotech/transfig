@@ -1,0 +1,5 @@
+/* horizontal lines */
+#define horizontal_width 8
+#define horizontal_height 4
+static unsigned char horizontal_bits[] = {
+   0xff, 0x00, 0x00, 0x00};

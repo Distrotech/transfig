@@ -1,0 +1,73 @@
+#ifndef XCOMM
+#define XCOMM #
+#endif
+
+XCOMM
+XCOMM	Fig2dev Driver Library Makefile
+XCOMM
+XCOMM Copyright (c) 1994 Micah Beck
+XCOMM Parts Copyright (c) 1995-1999 Micah Beck
+XCOMM Parts Copyright (c) 1995-2002 by Brian V. Smith
+XCOMM
+XCOMM Any party obtaining a copy of these files is granted, free of charge, a
+XCOMM full and unrestricted irrevocable, world-wide, paid up, royalty-free,
+XCOMM nonexclusive right and license to deal in this software and
+XCOMM documentation files (the "Software"), including without limitation the
+XCOMM rights to use, copy, modify, merge, publish and/or distribute copies of
+XCOMM the Software, and to permit persons who receive copies from any such 
+XCOMM party to do so, with the only requirement being that this copyright 
+XCOMM notice remain intact.
+
+INCLUDES = -I.. -I../..
+
+#ifdef USE_PNG
+READPNGS=readpng.c
+READPNGO=readpng.o
+#endif
+
+#ifdef USE_XPM
+READXPMS=readxpm.c
+READXPMO=readxpm.o
+#endif
+
+SRCS =  genbox.c gencgm.c gendxf.c genepic.c gengbx.o genibmgl.c genlatex.c genmap.c genmf.c genpic.c \
+	genpictex.c genps.c genpdf.c genpstex.c genpstricks.c gentextyl.c gentk.c genptk.c gentpic.c \
+	genbitmaps.c genge.c genmp.c genemf.c gensvg.c genshape.c setfigfont.c psencode.c \
+	readpics.c readeps.c readgif.c readpcx.c readppm.c readpng.c readxpm.c \
+	readxbm.c readtif.c readjpg.c asc85ec.c $(READPNGS) $(READXPMS)
+LIBOBJS = genbox.o gencgm.o gendxf.o genepic.o gengbx.o genibmgl.o genlatex.o genmap.o genmf.o genpic.o \
+	genpictex.o genps.o genpdf.o genpstex.o genpstricks.o gentextyl.o gentk.o genptk.o gentpic.o \
+	genbitmaps.o genge.o genmp.o genemf.o gensvg.o genshape.o setfigfont.o psencode.o \
+	readpics.o readeps.o readgif.o readpcx.o readppm.o readpng.o readxpm.o \
+	readxbm.o readtif.o readjpg.o asc85ec.o $(READPNGO) $(READXPMO)
+
+LIB = transfig
+
+SpecialObjectRule(genps.o, genps.c ../../patchlevel.h, )
+SpecialObjectRule(genmf.o, genmf.c ../../patchlevel.h, )
+SpecialObjectRule(genemf.o, genemf.c genemf.h, )
+
+NormalLibraryTarget($(LIB),$(LIBOBJS))
+DependTarget()
+
+#ifdef I18N
+install::
+	InstallNonExecFile(japanese.ps,FIG2DEV_LIBDIR)
+	( cd $(DESTDIR)FIG2DEV_LIBDIR; \
+	  rm -f ja.ps ja_JP.ps ja_JP.ujis.ps ja_JP.eucJP.ps ja_JP.EUC.ps; \
+	  $(LN) japanese.ps ja.ps; $(LN) japanese.ps ja_JP.ps; \
+	  $(LN) japanese.ps ja_JP.ujis.ps; $(LN) japanese.ps ja_JP.eucJP.ps; \
+	  $(LN) japanese.ps ja_JP.EUC.ps )
+	InstallNonExecFile(korean.ps,FIG2DEV_LIBDIR)
+	( cd $(DESTDIR)FIG2DEV_LIBDIR; \
+	  rm -f ko.ps ko_KR.ps ko_KR.eucKR.ps ko_KR.EUC.ps; \
+	  $(LN) korean.ps ko.ps; $(LN) korean.ps ko_KR.ps; \
+	  $(LN) korean.ps ko_KR.eucKR.ps; $(LN) korean.ps ko_KR.EUC.ps )
+	InstallNonExecFile(cs_CZ.ps,FIG2DEV_LIBDIR)
+	( cd $(DESTDIR)FIG2DEV_LIBDIR; \
+	  rm -f hr_HR.ps hu_HU.ps pl_PL.ps ro_RO.ps sk_SK.ps sl_SI.ps; \
+	  $(LN) cs_CZ.ps hr_HR.ps; $(LN) cs_CZ.ps hu_HU.ps; \
+	  $(LN) cs_CZ.ps ro_RO.ps; $(LN) cs_CZ.ps pl_PL.ps; \
+	  $(LN) cs_CZ.ps sk_SK.ps; $(LN) cs_CZ.ps sl_SI.ps )
+#endif
+

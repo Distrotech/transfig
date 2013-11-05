@@ -1,0 +1,39 @@
+#ifndef XCOMM
+#define XCOMM #
+#endif
+
+XCOMM Top level Makefile for TransFig
+
+XCOMM TransFig: Facility for Translating Fig code
+XCOMM Copyright (c) 1985-1988 Supoj Sutantavibul
+XCOMM Copyright (c) 1991 Micah Beck
+XCOMM Copyright (c) 1994-2002 Brian V. Smith
+
+XCOMM Any party obtaining a copy of these files is granted, free of charge, a
+XCOMM full and unrestricted irrevocable, world-wide, paid up, royalty-free,
+XCOMM nonexclusive right and license to deal in this software and
+XCOMM documentation files (the "Software"), including without limitation the
+XCOMM rights to use, copy, modify, merge, publish and/or distribute copies of
+XCOMM the Software, and to permit persons who receive copies from any such 
+XCOMM party to do so, with the only requirement being that this copyright 
+XCOMM notice remain intact.
+
+XCOMM to make transfig and fig2dev:
+XCOMM type "xmkmf", "make Makefiles", "make" then "make install"
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+DEPLIBS =
+SUBDIRS = fig2dev transfig
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+manual: 
+
+transfig.man:: doc/transfig.1
+	-ln -s ../doc/transfig.1 transfig.man
+	cd doc/manual; $(MAKE); latex manual; latex manual
+
+clean::
+	cd doc/manual; $(MAKE) clean

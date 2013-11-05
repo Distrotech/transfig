@@ -1,0 +1,1174 @@
+Changes to Transfig/fig2dev
+===============================================================================
+Version 3.2
+===============================================================================
+
+Patchlevel 5e (August 2013)
+
+BUGS FIXED:
+	o HTML map output was limited to 100 links.
+	  Fix by Jan van Dijk
+	o Updated for compatibility to PNG 1.5
+	  From Matthias Scheler
+	o Was adding "showpage" command when producing bitmap formats from intermediate EPS.
+	  This produced "illegal" PNG and JPEG files with extra, blank image.
+	o Maximum width of included image in PS/EPS output increased from 8192 to 16384
+	o Precision of some PIC objects increased from %.2f to %.3f
+	o Double close of output file when ghostscript fails. Original bug report from
+	  https://bugzilla.redhat.com/728825
+
+-------------------------------------
+Patchlevel 5d (July 23, 2010)
+
+BUGS FIXED:
+	o reduces some compilation warnings (fix from Debian)
+	o made PostScript output DSC 3.0 compliant to work with CUPS 
+	  patch from Ian Dall (see https://bugzilla.redhat.com/558380)
+	o Changed STOCK_LAST from 17 to 19 in fig2dev/dev/genemf.c
+	o Questionable copy of one data type to another in genemf.c
+	o Uninitialized linew_spec in genepic.c
+	o Changed definition of command for short slanted lines in genlatex.c
+	o Added check for existance of arrows in SVG line generator
+	o Removed %%Page: directive from included JPEG files in PostScript/EPS output
+	o bound.c was passing pointers to int instead of double to arc_tangent
+	o put_msg function uses proper varargs now
+	o Option for debug comments in GBX output is "yes" or "no", not "on" or "off"
+	o Added help (-h)  info for GBX output
+	o In version 1.4 of the PNG library dither was removed so fig2dev now uses
+	  quantize when importing PNG images with palettes
+	o put_msg was declared twice (fig2dev/dev/genemf.c)
+	o Added xlink namespace for images in SVG export
+	o SVG output for imported images didn't form href link properly
+	o PIC floating point numbers were only 2 decimal places - now 3 (Debian bug #611948)
+	  Fix thanks to Roger Leigh (Debian Project)
+	o PIC output text had leading blanks (Debian bug #611977)
+	  Fix thanks to Roger Leigh (Debian Project)
+	o LaTeX commands for small and tiny dots missing "." (e.g. \small.)
+	  from Thomas Loimer
+
+NEW FEATURES:
+	o New PSTricks driver from Gene Ressler (see man fig2dev for info)
+
+-------------------------------------
+Patchlevel 5c (Jan 4, 2010)
+
+BUGS FIXED:
+	o transfig command was hardwired for "tex" for "make all" directive and
+	  removing files with "make clean" directive in creating Makefile
+
+-------------------------------------
+Patchlevel 5b (Jun 2, 2009)
+
+NEW FEATURES:
+	o -a option added to PostScript and PICTeX languages to NOT include user's
+	  login name in output
+	o Gerber (RS-247-X for CAD drawings for printed circuits) export language from Edward Grace
+
+-------------------------------------
+Patchlevel 5a (Jun 1, 2009)
+
+NEW FEATURES:
+	o 22 new arrowhead types
+	o HTML map now produces reference to .png file instead of .gif
+
+BUGS FIXED:
+	o CreationDate in pictex output was either wrong or caused segfault
+	o bugs fixed in SVG Driver:
+	  - blue component of shaded colors was always zero
+	  - line protruding beyond arrowhead on long arrows
+	  - wrong position of back arrowhead on double-headed arrows
+	  - fill patterns either missing or using incorrect linewidth
+	  - lowercase greek phi did not match its X11 counterpart
+	  from Martin Kroeker
+	o dubious printf(j++,j++) in MP driver
+	o missing #includes in MP driver
+	o added !defined(__FreeBSD) to fig2dev.h def for sys_nerr and errno
+	  From Eric Scott
+	o added -quiet options to giftopnm and ppmtopcs in reading GIF files
+	  From Eric Scott
+	o Typo in LaTeX driver when generating arc-box. "iut" should be "put"
+	o extraneous stroke:black in svg header removed along with stroke color
+	  for text, since the text fill color does the whole job
+	o fig2dev produces more correctly structured PostScript.  Files get printed via
+	  CUPS on PostScript printers.  When viewing a .ps-file in gv you can go to the
+	  last page and back and to the last page again without getting PostScript errors.
+	  From Ronald Lembcke
+	o Renamed the macro \SetFigFont to \SetFigFontNFSS if NFSS is #defined to alleviate
+	  some problems. From Roland Rosenfeld.
+	o Grid in metric mode was incorrectly scaled
+	o Removes any %EOF or %%EOF from imported EPS pictures before exporting.  
+	  Also doesn't add %EOF when importing JPEG file now.
+	o Missing call to get local time before converting to string in genpictex.c
+
+-------------------------------------
+Patchlevel 5 (Feb 27, 2007)
+
+NEW FEATURES:
+	o SVG driver adds color and pattern filling to arcs
+	  from Martin Kroeker
+
+BUGS FIXED:
+	o bug which made arrowheads too short fixed
+	o SVG driver corrects the ugly arrowheads on stick arrows
+	  from Martin Kroeker
+	o EMF driver would crash when fed stdin
+	  from Martin Kroeker
+	o Unhandled case for linetypes in latex driver
+	o CUPS didn't like the order of some of the Postscript header
+	  from Ian Dall
+
+-------------------------------------
+Patchlevel 5-alpha7 (Oct, 27, 2005)
+
+NEW FEATURES
+	o Updated SVG driver from Martin Kroeker was missing from alpha6
+	o Another SVG update: Use a font-family list of "Times,Symbol" for symbol
+	  characters - the Times fontface does not contain all elements of the
+	  Symbol font on all platforms
+	
+BUGS FIXED:
+	o Typo in font name (was cmit10, should be cmti10) in MetaPost driver
+	  This bug fix was omitted from alpha6
+
+Patchlevel 5-alpha6 (Oct, 12, 2005)
+
+NEW FEATURES:
+	o Added -dPDFSETTINGS=/prepress option to ghostscript when generating
+	  PDF output to improve quality of bitmap graphics
+	o Fill patterns now use PostScript Level 2 built-in pattern commands
+	  for Postscript/EPS/PDF and bitmap output
+	  From Konstantin Shemyak
+	o Updated SVG driver from Martin Kroeker
+	o New -K option to size bounding box to whole figure when exporting
+	  only certain depths
+	  From Dirk Osswald
+
+BUGS FIXED:
+	o Typo in font name (was cmit10, should be cmti10) in MetaPost driver
+	o When all texts were "special" (LaTeX coded) in a figure, ISO
+	  characters weren't encoded in straight PS and PDF output
+	o Bug in radius for circles in SVG driver (dev/gensvg.c)
+	o fig2dev.man was missing many papersize options
+	o Double fclose() in bitmap driver
+
+-------------------------------------
+Patchlevel 5-alpha5 (April, 26, 2004)
+
+NEW FEATURES:
+	o Raster picture support added to SVG driver. (In SVG, this translates
+	  to a link to the image file plus rotation/scaling information. 
+	  While 'conformant' SVG viewers need only support PNG and JPEG, there
+	  is no a filetype test, as there is no limit on supported formats
+	  in the standard, and e.g. Batik is able to display XBM and GIF in
+	  addition.  Added code for rounded boxes (polyline subtype 4).
+	  Added code for boxes, explicit support for polygons.  Added
+	  xml-space:preserve qualifier on texts to preserve whitespace. Rewrote
+	  fill pattern handling to generate patterns as needed - adding support
+	  for penwidth and color.  Corrected tiling of all shingle patterns and
+	  reversal of horizontal shingles.
+	  From Martin Kroeker
+	o Better arrowheads in SVG driver.  Corrected font family selection.
+	  Corrected (and simplified) calculation of white-tinted fill colors
+	  (and removed the HSV/RGB conversion code).
+	  From Justus Piater
+
+BUGS FIXED:
+	o Typo in LATEX_AND_XFIG file. Text should be: 
+	  \convertMPtoPDF{foo.0}{1}{1}
+	  It was missing parameters {1}{1}
+	o Depth filter option -D was parsing range (e.g. 40:80) incorrectly
+	  Fix from Justus Piater
+	o C++ style comments "//" changed to "/* */" in genmp.c
+	o Integer overflow in computing some spline steps
+	o \pagestyle{empty} added for epic/eepic driver so it doesn't produce
+	  unnecessary page number when LaTeXing
+
+---------------------------------
+Patchlevel 5-alpha4 (Feb 19, 2004)
+
+NEW FEATURES
+	o Many SVG driver enhancements from Martin Kroeker
+	  (martin@ruby.chemie.uni-freiburg.de)
+	o New features in EMF driver from ITOH Yasufumi:
+	    support for locale text (if iconv() is available),
+	    arc box, open arc, rotated ellipse, picture,
+	    dash-triple-dotted line style, and all fill patterns.
+
+BUGS FIXED
+	o "cleandir" directive missing from doc/manual/Makefile
+	o Added note about requiring dummy argument for -R option
+	o SVG driver bug fixes: semicolon missing in CSS properties, multiline
+	  string problem, width, height and viewbox attributes now relative to
+	  figure bounds instead of pagesize. Fixes from Justus Piater.
+	o Font info was put in the pstex file even when there were only special
+	  texts.
+
+---------------------------------
+Patchlevel 5-alpha3 (Dec 9, 2003)
+
+NEW FEATURES
+	o Global option "-Z maxdim" to scale figure so that largest dimension
+	  (width or height) is maxdim inches
+	o Shapepar driver to generate shaped paragraphs for LaTeX (-L shape)
+	  from Christian Gollwitzer
+	o I18N support postscript file installation moved to fig2dev/dev
+	  directory and installed with InstallNonExecFile (imake directive)
+	o options -dAutoFilterColorImages=false and -dColorImageFilter=/FlateEncode
+	  added to ghostscript call when exporting to pdf to improve image
+	  quality during compression
+	o "Epoch" added to rpm spec
+	o New HP/GL2 driver from Glenn Burkhardt with paper size selection,
+	  offset, centering and orientation options
+
+BUGS FIXED
+	o comments about BINDIR added to fig2dev/Imakefile and transfig/Imakefile
+	  so user can easily change installation directory of both programs
+	o MKDIRHIER used in Imakefile for installing support files instead of mkdir
+	o commands like \\small used instead of SetFigFont for thick and thin
+	  dots for LaTeX export
+	  From Bo Thilde
+	o removed typedefs of uint, ushort and ulong from genemf.h because
+	  systems should already have those defined
+	o SVG driver not mentioned in fig2dev.1 (.man)
+	o shortened two fprintf calls in gensvg.c for HP-UX which can't handle
+	  long strings
+	o If an imported picture path points to some directory which is not the
+	  current directory, and there exists a picture file of the same name in
+	  the current directory, and the correct file is not compressed, fig2dev
+	  would use the file in the current directory because it stripped off
+	  the path first.  This was fixed by looking for the uncompressed name
+	  first.
+	o Color values should be divided by 255, not 256 to produce values from
+	  0 to 1.0 in LaTeX, Tk and PostScript drivers, and readpng and readpcx
+	  utilities
+	o Increased precision of arc angles from %.1f to %.4f in PS/EPS/PDF
+	  driver
+	o Postscript support files now installed with r/w permissions only (was
+	  r/w/x)
+	o Metapost (mp) driver now generates all Fig styles of arrowheads
+	  From Tim Braun
+	o Bug in pic preamble - default font size either 0 or garbage
+	o PDF not rotated anymore for landscape mode (similar to eps)
+	o fontmag not set when magnification was read from Fig file
+	o When there were only LaTeX special texts without backslashes (\) and
+	  no other objects in the figure, a bounding box of 0 width was produced
+	  for EPS, PS and PSTEX output.
+	o Added ZLIBDIR variable in fig2dev/Imakefile to specify zlib directory
+	  if different from standard location
+	o pstex_t export lacked border option (-b) to align LaTeX text when
+	  pstex figure specified border (also fixed in xfig Combined PS/LaTeX)
+	o warnings in gentpic.c caused failure of gcc on hppa architecture under
+	  Debian
+	o cleaned up lots of implicit declarations of functions/procs
+	o transfig: the "psfig" language was missing from the list of languages,
+	  making things go out of sync past "ps".
+	o transfig: "transfig -L pstex" was generating rules for ps not eps
+	o slight margin added to text bounds
+	o an incorrect printf specification (%d instead of %ld) in gemp.c
+	o "#include <varargs.h>" no longer needed (and is unsupported by gcc 3.3)
+	o Not a bug, really but a workaround for programs that generate Fig files
+	  with arcs that have coincident start and end points with the intent
+	  of making a circle (TCM apparently does this).  Without this
+	  workaround, such arcs have the same start and end angle, which
+	  ghostcript and probably other PostScript interpreters take to mean
+	  "don't draw anything".  This fix adds 0.01 degrees to the end angle
+	  if it is identical to the start angle.
+	o Exporting a file with a picture containing a path with blanks failed
+	o Incorrect ISO translation was: 
+	      "\\.S", /* latin capital letter S with dot above */
+	  Should be:
+	      "\\.Z", /* latin capital letter Z with dot above */
+	o LaTeX: Correction to the ISO-8859-2 ogonek diacritic mark now uses \k
+	  instead of cedilla (\c).  If the macro \k isn't defined in your
+	  situation or you don't see the ogonek then define the macro: \def\k#1{\c{#1}}
+	  before the \begin{document}.  
+	  From Jerzy Sobczyk
+	o Bug in user-defined colors when exporting to CGM. If color numbers
+	  weren't contiguous, e.g. 32, 34, then it couldn't find color 34.
+	o glyphs in the Symbol font that have descenders weren't taken into
+	  account when calculating text bounds
+	o missing blue and extra brown color in LaTeX driver
+	o \smash directive added back to text objects in eepic driver (was removed 
+	  in 3.2.4)
+	o Quotes in FIG2DEV_LIBDIR definition (fig2dev/Imakefile) interferred when
+	  using $DESTDIR
+	o Comments not inserted in EMF output anymore (not valid in language)
+	o float/int mixup in printf in pic driver for font size caused default
+	  font size to be 0
+	o bug in hp/gl (ibmgl) driver produced incorrect JCL code to enter HP/GL
+	  mode when using -k option
+	o point size factor changed from 72.27 to 72 points per inch as specified
+	  by HP tech notes
+	o change in 3.2.4 which included all "special" (LaTeX) texts in the
+	  bounding box that don't have any backslashes ("\") in them failed to
+	  take into account inline equations using the "$".  Now those special
+	  texts are also excluded from the bounding box calculation.
+	o various man page format errors fixed
+
+-----------------------------
+Patchlevel 4 (December 2002)
+
+NEW FEATURES
+	o SVG (Scalable Vector Graphics) driver from Anthony Starks, modified
+	  by Brian Smith and greatly enhanced by Martin Kroeker
+	o ASCII and Binary (TIFF) preview bitmap options for PostScript and EPS
+	  export.  The latter is useful for Microsoft products which require a
+	  TIFF preview to display EPS on the screen. Use -A for ASCII preview,
+	  use -C for color TIFF or -T for monochrome TIFF preview.  These all
+	  require ghostscript to work.  If you don't have ghostscript, the
+	  export will continue without a preview.
+	o JPEG encoding (DCT) now used for EPS/PostScript output. This greatly
+	  reduces the size of the generated PostScript.  Gleaned with permission
+	  from jpeg2ps program written by Thomas Merz.
+	  As a result of this, the jpeg library is no longer needed, although xfig
+	  still needs it for JPEG support.
+	o Background (-g) option for tk export honored now
+	o Additional JPEG file format (EXIF) added. These usually come from
+	  digital cameras.
+	o -N Option to convert colors to grayscale on export.
+	o -b option for CGM export to produce binary CGM using ralcgm. You must,
+	  of course have ralcgm installed on your system to use this.
+	o Translations of LATEX.AND.XFIG document into two popular Chinese
+	  encodings (GB2312 and Big5).  These are called LATEX.AND.XFIG.zh_CN
+	  and LATEX.AND.XFIG.zh_TW respectively.
+	  From Mendel Chan
+	o The default for multi-page output (PostScript) is to NOT overlap pages
+	  now.  This is to allow multiple, independent pages of figures.
+	  The -O option has been added to force page overlap, e.g. to cut and
+	  paste pages together to make posters (the original use for multipage).
+	o Added EMF (Enhanced MetaFile) conversion genemf.c
+	  from Mike Schrick (based on the CGM driver from Philippe Bekaert
+	o New grid option (-G) to draw grid on page.  Specify minor and/or major
+	  tick spacing in one of several units.  For example, "-G .25:1cm" draws
+	  a thin, gray line every .25 cm and a thicker gray line every 1 cm.
+	  Specifying "-G 1in" draws a thin line every 1 inch.  See man pages for
+	  all units.  Fractions may be used, e.g. -G 1/16:1/2in will make a thin
+	  line every 1/16 (0.0625) inch and a thick line every 1/2 (0.5) inch.
+	  Only implemented in PostScript, EPS, PDF, and bitmap (GIF, JPEG, etc)
+	  drivers for now.
+	o Perk/Tk driver from Slaven Rezic (rezic@onlineoffice.de)
+	o Added options -B and -R to the EPS driver. This enables the user to
+	  clip out a region for display in the EPS file. Very convenient when
+	  using xfig via pstoedit as a postprocessor of ps files and one wants
+	  to maintain the preview of the file in lyx. See the man for additional
+	  information.  From Morten S. Nielsen <msn@ipt.dtu.dk>
+	o New PostScript DSC directives to specify page size.  Doesn't select
+	  tray, which is device dependent, but works better with ghostscript,
+	  ghostview and other PostScript interpreters.  
+	o fig2dev now includes all "special" (LaTeX) texts that don't have any
+	  backslashes ("\") in them in the bounding box.
+	o genepic and genpictex drivers updated for I18N (internationalization)
+	  From T. Sato
+	o Glyphs for Hungarian, Polish, Romanian, Slovak and Slovenian
+	  are essentially the same as Czech (ISO-Latin 2) so symbolic links are
+	  created for those .ps files (hu_HU.ps, pl_PL.ps, ro_RO.ps, sk_SK.ps
+	  and sl_SI.ps are linked to cs_CZ.ps)
+	o fig2dev prepends any path included in the .fig filename to imported
+	  image file paths (only if imported image path isn't already absolute).
+	o transfig now reports when it is renaming an existing makefile or TeX
+	  macro file to a backup (e.g. Makefile to Makefile~)
+	o now uses Thomas Merz' jpeg2ps for imported jpeg files when exporting
+	  to PS/EPS.  This is much more compact than the runlength encoding
+	  which is used for other bitmaps.  Many thanks to Thomas for his
+	  permission to use jpeg2ps.
+	o New option for binary CGM export. The ralcgm program is required for
+	  this option.  See ftp://ftp.cc.rl.ac.uk/pub/graphics/ralcgm/
+	o New -E option to set encoding for pictex, latex, pstex_t and epic
+	  text to ISO8859-1 (the default) or ISO8859-2
+	o Added "install.all" option to make to install man pages in addition to
+	  executables etc.
+	o If output file ends in ".fig", fig2dev prints error message to stderr
+	  and exits.
+	o New encoding option (-E) for ISO-8859-1 or ISO-8859-2 from Tomas Kopal
+	o Exporting to tk now supports imported PPM images in addition to GIF
+	  and XPM
+	o Comments added to EPS and PostScript output so MetaPost can group parts of
+	  figure according to depths.  From Klaus Guntermann.
+	o New -F, -R and -t options for epic output (do "fig2dev -h" for info).
+	  From Gabriel Zachmann.
+
+BUGS FIXED
+	o When importing multiple GIF or PCX images, fig2dev would segfault on
+	  Linux.  This happened for two reasons: the GIF file was closed and
+	  reopened, which would result in a different file structure being
+	  closed by the calling routine, and a palette was being allocated for
+	  the PCX image and never used.
+	o In multi-page mode for PDF export, figure was shifted up too far.
+	o The color gold was in the wrong place for LaTeX special text.
+	o Various extraneous variables removed
+	o In multipage mode (PostScript export), if the figure is smaller than
+	  0.1 page, nothing was generated or printed.
+	o When exporting to EPS, the multipage flag was not cleared after
+	  reading the file (options are set before reading file).
+	o Bug in the -D option (export or exclude certain depths) where it
+	  wouldn't accept 0 as a depth specifier.
+	o Extra "char *c" definition in fig2dev/dev/readeps.c
+	o Possible data type problem with result of floor() in readeps.c - now
+	  coerced with (int)
+	o fig2dev would sometimes emit the "transparentimage" for JPEG images
+	  (it's only for GIF with a transparent color)
+	o Minor adjustment made in tk driver which fixes problem where objects
+	  extend beyond the canvas, when the objects are very far away from the
+	  origin (50 inches or more)
+	o Line join was not explicitely set to "miter" and line cap was not set
+	  to "butt" explicitely at the beginning.  This caused problems if the
+	  figure was imported into another figure because settings from
+	  importing document were used
+	o PNGINC Imakefile variable wasn't used
+	o Minimum length (MIN_LEN) for "LaTeX short lines" was calculated
+	  incorrectly (was using 13 pixels instead of 13 points as per Lamport)
+	  Also, actual length of line was compared instead of horizontal
+	  component (or vertical component for vertical lines)
+	  Fixed by Jacques Lefrere
+	o The lines in three patterns: 45 degrees left, 45 degrees right and
+	  45 degrees crosshatch were too close together compared to the xfig
+	  (on-screen) version
+	o Pagesize may have been one pixel too small when exporting to PDF
+	o Text font sizes for latex, pic and tpic output were incorrectly scaled
+	  for metric Fig files (their units are points, not inches or cm)
+	o Added "&& !defined(__CYGWIN__) && !defined(__DARWIN__)" to declaration
+	  of sys_errlist[], errno and sys_nerr.  The __DARWIN__ is for Mac OSX
+	  using X.
+	o Font size was incorrect for CGM output when exporting Fig 2.x files
+	o Bug introduced in 3.2.3d shifted rotated imported pictures
+	o Missing % from \end{picture} in generated latex code. This caused bad
+	  extra spacing when the generated file is \input into a minipage or a
+	  framebox, for instance.
+	  Fix from Matthias Koeppe
+	o Not really a bug, but the text() proc in fig2dev/dev/gengcm.c was
+	  renamed to cgm_text because of a bug in IBM's compiler which turns
+	  text() into a .text assembler directive
+	o Options (fig2dev -h) incorrectly had "-p name" for pstex options
+	  instead of pstex_t
+	o Updated language options in transfig to current set in fig2dev
+	o Incorrect adjustment of scale and canvas offset for tk and ptk
+	  (perl/tk) export
+	o In the PIC driver, the macro PICFONTMAG should return int, but was
+	  returning double, which then trashed following arguments to fprintf.
+	o Extraneous semi-colon (;) after closing brace } and/or empty default
+	  case (no trailing semi-colon) causes HP ANSI compiler to complain
+	o Moved landscape rotation of page and Y-flip scaling inside
+	  %%BeginPageSetup %%EndPageSetup block according to DSC, which says
+	  that page orientation code should be there.
+	o ANSI style prototype for rgb2luminance did not match proc declaration
+	o When a compound object included lines that have arrowheads and large
+	  coordinates (>= 100000), an incorrect bounding box was produced.
+	  This same bug was in xfig 3.2.3d and earlier.
+	o Output file was being closed twice in CGM and PDF driver, causing
+	  segfault on some systems.
+	o In the eepic driver, the thickness of a line may be incorrect if it a
+	  has backward arrowhead of different thickness.
+
+-----------------------------
+Patchlevel 3d: (May 29, 2001)
+
+NEW FEATURES
+
+	o MetaPost driver (-L mp or -L mmp) ported from fig2MP by Klaus
+	  Guntermann (guntermann@iti.informatik.tu-darmstadt.de).  fig2MP was
+	  written by Dane Dwyer (dwyer@geisel.csl.uiuc.edu)
+	o Support for importing PNG image files added 
+	o Transparent color in imported GIF files now honored
+	o You may use "-M -" to send the Makefile output to standard output from
+	  TransFig, and "-T -" to send the Texfile to standard output.
+	o (The following feature was really added in 3.2.3, but I forgot to update
+	  this file): -S option added for smoothing bitmap output.
+	o (The following feature was really added in 3.2.3b, but ... you know...):
+	  eps added as a language for TransFig
+	o Support for Czech font encoding for PostScript (cs_CZ.ps)
+	  From Radim Gelner <gelnerr@suse.cz>
+
+BUGS FIXED
+
+	o #ifdef JPEG added in usage message for JPEG options
+	o Resolution variable (ppi) needed to be double.  This caused roundoff
+	  and overflow errors in several drivers.
+	o Comments longer than 200 characters in Fig files caused segfault.
+	  Comments may now be of unlimited length.
+	o some bitmap files for tk driver had double brackets "{"
+	o The CGM driver didn't check if the "from" input was from stdin or a
+	  file and segfaulted.
+	o Spline objects with trailing blanks (in file) made next object read
+	  incorrectly.
+	o Bounding box incorrectly counted line thickness in imported picture
+	  objects (they don't use the line thickness)
+	o The amount to shift a figure to 0,0 was rounded to integer, which
+	  caused some figures to be clipped by the bounding box.  This affected
+	  eps and bitmap output.
+	o The ibmgl driver output NaNs because of a double/int mixup with printf
+	o Certain punctuation characters with descenders weren't taken into
+	  account for text bounds.
+	o An extra page was generated for pdf output.
+	o Every object had 0.0000 coordinates when exporting to the MetaFont
+	  driver.
+	o fig2dev would crash when reading FIG 3.1 files that have splines. The
+	  problem was that the "points" component of the spline structure is in
+	  a different position than in the line structure, causing arrow_bound
+	  to use the wrong data.
+	o "%Page:" DSC comment is not generated generated for EPS now
+	o Trailing blank in spline object (after control points) caused problem
+	  when reading Fig file
+	o TransFig didn't check whether Texfile or Makefile could be opened for
+	  writing, causing segfault
+	o AutoRotatePages now set to None when using ghostscript to export PDF
+	o Changed explicit "ln -s" to use $(LN) for making symlinks during
+	  install (fig2dev/Imakefile)
+
+------------------------------
+Patchlevel 3c  (July 25, 2000)
+
+BUGS FIXED
+	o TransFig manual Makefile now calls ../../fig2dev/fig2dev preventing
+	  the Catch-22 problem of having to install TransFig before you can
+	  compile it 
+	o fig2dev/dev/genpdf.c needs "#include <signal.h>" for some systems
+	o Added -m 644 to "install" directives in Imakefile to make updates
+	  easier in future (no read-only files)
+	o LaTeX and pstex_t driver produced bogus \unitlength and \dashbox
+	  values
+	o File ko_KR.ujis.ps removed because it is not needed
+
+------------------------------
+Patchlevel 3b  (July 19, 2000)
+
+N.B. There was no transfig 3.2.3a - I want to keep the release number identical
+     to that of the corresponding xfig.
+
+NEW FEATURES
+	o X11 Color database ASCII file (/usr/lib/X11/rgb.txt) is now used,
+	  removing the need for the dbm_xxx functions.
+	o The \special code for colors in genlatex (LaTeX driver) replaced with
+	  the \color code to be compatible with pdflatex and not require dvips
+	  From Klaus Guntermann (guntermann@iti.informatik.tu-darmstadt.de)
+	o PCX image reader now handles 24-bit color which means that TIFF images
+	  (which are converted to PCX first) may also be 24-bit
+
+BUGS FIXED
+	o Exporting to PDF now sets bounding box to figure bounds instead of page
+	o Explicitely sets color to black before importing eps file in case that
+	  file doesn't select a color
+	o Changed error message in epic driver from "Unknown style" to "Only
+	  solid, dashed, and dotted line styles supported by epic(eepic)"
+	o Apostrophes (') in text are now escaped in CGM driver
+	  from David Billinghurst (David.Billinghurst@riotinto.com.au)
+	o One of the header values for TIFF files was incorrect (was "DD",
+	  should be "II")
+	o -f (font) option wasn't parsed correctly, which caused segfault
+	o Bug in handling imported xpm file colors in certain formats
+	o Multiple variables with same name in different drivers now declared
+	  "static"
+	o In multi-page mode, redundant "Page: 1 1" was generated
+	o Unnecessary scaling in the pattern definitions removed (pdf/ps/eps
+	  drivers)
+	o Total page number calculation was incorrect for multi-page PostScript
+	  output
+	o Toplevel Imakefile referred to "make" instead of "$(MAKE)"
+	o Text object read routine had extra variable in scanf
+	o Error in calculation of arc arrowhead occluding underlying line; could
+	  cause asin domain error
+	o Possible error in reading imported GIF colormap
+	o calc_arrow() didn't set nboundpts (number of points in bounding box)
+	  if line having arrowhead had zero length
+	o Bug in Imakefile - jpeglib.h file couldn't be found for JPEG code if
+	  USEXPM was not enabled.
+	o "Special" LaTeX text not included in bounding box anymore - this had
+	  caused positioning problems with the LaTeX special text and figure
+	o "hyphen" was misspelled as "hypen" the character encoding for the
+	   PostScript (and EPS/PDF) driver.
+	o One of the two TIFF file header types was incorrect
+	o Segfault when exporting to GIF if Fig file specified "none" for GIF
+	  transparency
+	o Duplicate JPEG information in fig2dev/Imakefile
+	o If output from fig2dev was standard output, bitmap export formats
+	  failed because of bad argument to ghostscript
+	o -P option description for PostScript removed from fig2dev man pages
+	o Error parsing certain color specs for XPM files
+	o Tightly curved, wide splines were sometimes "spikey"
+	o Bounding box wasn't taking arrowhead width(s) into account
+	o free_text now uses free() instead of less standard cfree()
+	o Changed last references to sys_errlist to use strerror()
+	o Bug in referencing imported xbm files in tk driver fixed
+	o Temporary file not closed before deleting in read_gif() and read_ppm()
+	o Formatting "%lf" in printf calls should be "%f"
+	o Prepended $(DESTDIR) to $(XFIGLIBDIR) and $(FIG2DEV_DIR) directory
+	  variables in Imakefile to be portable
+	o Cleaned up extraneous and erroneous rules in fig2dev/Imakefile
+	  from Pierre Humblet (Pierre.Humblet@eurecom.fr)
+	o Removed calls to external programs "cat" and "ps2pdf" to make more
+	  portable to Cygwin environment
+	o fig2dev now uses gunzip instead of uncompress to uncompress .Z files
+	  to be more portable for Cygwin environment
+	o Papersize sometimes truncated when reading Fig file (e.g. would get
+	  "Lette" instead of "Letter")
+
+----------------------------
+Patchlevel 3  (Jan 14, 2000)
+[N.B. There was no transfig/fig2dev 3.2 patchlevel 2]
+
+NEW FEATURES
+	o Adapted the transfig manual from LaTeX 2.09 to LaTeX 2e and uses
+	  Times/Helvetica/Courier instead of Computer Modern fonts.
+	  From Roland Rosenfeld (roland@spinnaker.de)
+	o If DBM file for RGB databse does not exist, read "rgb.txt" instead.
+	o If a file such as /usr/local/lib/fig2dev/A3.ps exists, insert it
+	  when generating PostScript output to select paper tray, for example.
+	o Messages from bitmap output (GIF, JPEG, etc) are captured and printed
+	  if there is any error during the export
+	o New PDF driver (uses ps2pdf from the ghostscript distribution)
+	o New CGM driver (Computer Graphics Metafile) from Philippe Bekaert
+	  (Philippe.Bekaert@cs.kuleuven.ac.be)
+	o More page sizes (Japanese JIS B0-B10 and ISO A0-A9)
+	o Autocad Slide format called "sld" now instead of "acad"
+	  (e.g. fig2dev -L sld ...)
+	o -L eps is required for Encapsulated PostScript now, instead of fig2dev
+	  just using the -P (add showpage) option to distinguish EPS from PS
+	o The compile-time symbol EPSF in fig2dev/Imakefile has been changed:
+	  comment out the DDLATEX2E_GRAPHICS = ... line if you don't want to use
+	  the standard graphics package distributed w/ LaTeX2e
+	  Uncomment the DDEPSFIG = ... line if you want to use the deprecated
+	  epsfig macros distributed w/ LaTeX2e (DDLATEX2E_GRAPHICS must also be
+	  defined)
+	o The default is now to compile for DVIPS
+	o Arc-boxes available for LaTeX now
+	  from C. Scott Ananian <cananian@lesser-magoo.lcs.mit.edu>
+	o New import picture formats supported - TIFF and PPM
+
+BUGS FIXED
+	o clipping and background filling incorrect for some Postscript/EPS
+	  output
+	o pstex driver now uses EPS driver for figure part instead of PostScript
+	  for proper bounding box and orientation (this is what caused rotation
+	  of the figure relative to the LaTeX text part when the Fig file spec-
+	  ified Landscape)
+	o TransFig now takes -L eps for Encapsulated PostScript language
+	o Imported EPS file bounding box wasn't read correctly
+	o readjpg.c and readjpg.o included in fig2dev/dev/Imakefile even without
+	  JPEG support
+	o calloc() declaration wrong for some systems (fig2dev/read.c)
+	o Bug in importing EPS files - strange aspect ratios resulted
+	o Used "True" and "False" instead of "TRUE" and "FALSE" in several
+	  driver files.  Have converted all TRUE to True and FALSE to False
+	o Some applications don't set clipping path when they import EPSF file,
+	  and not only the background of the figure but whole paper may be
+	  painted with the -g (background) option.
+	o BitmapSuccess and BitmapFileInvalid were not defined in
+	  fig2dev/dev/genxbm.c
+	o Digital's compiler doesn't like "{ }" as initializer (genps.c)
+	o Declarations of malloc() and calloc() removed from alloc.h, as they
+	  are declared in <stdlib.h>
+	o Arrowheads didn't quite extend far enough
+	o Extra parenthesis in shell script when exporting to SLD, XBM, and XPM
+	o splines were interpolated slightly differently than in xfig
+	o Add description about "-j" option to help message (when I18N is enabled)
+	o if imported PCX image file couldn't be opened, fig2dev tried to close
+	  the file, which is a bad thing
+	o %%EndProlog has been removed since it was not needed and there was
+	  never a %%BeginProlog
+	o needed pi.h for gentk.c (tk driver)
+	o bzero macro defined globally now (wasn't defined in readpcx.c) for
+	  those systems which don't have it (it is defined to use memset)
+	o didn't include "pi.h" in dev/gentk.c for machines that don't have M_PI
+	o Moved JPEGLIBDIR and JPEGINCDIR definition closer to the top in the
+	  fig2dev/Imakefile
+	o Output to GIF, JPEG, etc. (bitmap formats) didn't work properly if the
+	  destination was stdout
+	o "make install" changed because some systems' install program can only
+	   take one file at a time
+	o Added a "newpath" command after the initial clip command for PostScript
+	  output just in case an object is drawn without a preceding newpath
+	o M_2PI was redefined without first being #undef'd
+	o the "-" character in Fig files should really be a hyphen, not a dash as
+	  it was encoded for PostScript output.  This is fixed thanks to info
+	  from Robert Maier.
+	o Splines didn't come out exactly as they did in xfig.
+	o In transfig, character used instead of int when checking for EOF on
+	  file. From Geoff Keating (geoffk@ozemail.com.au)
+	o %%EndDocument only written for imported EPS files (not XPM, etc)
+	  From Dick Wesseling (ftu@fi.UU.nl)
+	o Added "if defined(FreeBSDArchitecture)" to include -lcompat library
+	o Changed fig2dev.h to always include <sys/param.h>
+	o Bounding box variables were uninitialized
+	o Cleaned up error reporting of line numbers in Fig file
+	o Text bounding calculations ignored the "include" directive for center-
+	  and right-justified text, which is used to flag whether text should be
+	  included in the bounding area.  This would affect the LaTeX, PicTex,
+	  PSTeX, TexTyl, and IBMGL drivers.
+	  From Anton Wilder <a.j.wilder@swansea.ac.uk>
+	o Clipping for arrowheads so that thick lines wouldn't "protrude" through
+	  the arrow tip modified so that it works properly with ghostscript 5.50.
+	o Allocation error in reading some pcx files
+
+----------------------------
+Patchlevel 1  (July 1, 1998)
+
+NEW FEATURES
+	o New driver for tk (tcl/tk) - Generates canvas objects and canvas.
+	  from Mike Markowski (mm@udel.edu)
+	o -h option to print all options for all output languages
+	o Japanese text support for LaTeX output
+	  from T. Sato (VEF00200@niftyserve.or.jp)
+
+BUGS FIXED
+	o XPMLIB renamed to XPMLIBS in Imakefile because of conflict with
+	  XFree86 variable name in xmkmf config files
+	o Fixed bug in JPEGINCDIR path when relative path is used (when
+	  USEINSTALLEDJPEG is *not* used) - the dev directory is one level
+	  deeper so "../" is prepended for that case
+	o The rest of the scaling problems for latex fixed :-)
+	  from Hans Werner Strube (strube@physik3.gwdg.de)
+	o Two bugs fixed in eepic driver
+		1) -l option didn't work because DPI was 0 when line width was
+		   defined
+		2) -W option produced 0 line widths because of a bad fprintf
+	o Dash length incorrect by factor of 80 for LaTeX output
+	o I18N support added for LaTeX output
+	o Incorrect amount of memory allocated for reading eps pictures
+	o Bug in provided strstr() (only used if you've uncommented
+	  #define NOSTRSTR in the Imakefile)
+	o Fixed M_PI incompatibility with RedHat 5.0
+	o moved convert_names procedure from readxpm.c into genps.c since only
+	  genps.c needs it.  Removed readxpm.c as a result.
+	o added missing PCX import driver
+	o metric scaling for latex part fixed
+	  From Martin Pahl <pahl@tnt.uni-hannover.de>
+	o Some Linuxes need -lgdbm instead of -ldbm (fig2dev/Imakefile)
+	o transparent color for GIF was not passed (new option -t)
+	o multiple co-incident points in splines caused problems on some
+	  machines (this patch was in the old spline model but failed to make
+	  it to the X-Spline model)
+	o endpoints of splines were missing sometimes
+	o new #ifdef for glibc which already has sys_errlist defined
+	o conflict with definition M_PI (3.14159....) on RedHat systems fixed
+	o "Ledger" paper size removed from list of paper sizes.  It is really
+	  "Tabloid" size in landscape mode.
+	o arrowheads were too far back from end of line
+	o dash length for lines were too large in LaTeX output
+	o fig2dev can now be used in a pipe (e.g. cat x.fig | fig2dev -L ps ...)
+	  was attempting to rewind file before
+	o error in I18N defines in fig2dev/Imakefile
+	o bug fixes and modernization of Metafont driver by Mats Bengtsson
+	  <mats.bengtsson@s3.kth.se>
+	o removed stricmp() function in dev/genepic.c because strcasecmp() is
+	  equivalent
+	o newpath command given in PostScript output after imported EPS pic to
+	  prevent bounding box being drawn
+
+===============================================================================
+Version 3.2 (first release Aug 22, 1997)
+===============================================================================
+
+NEW FEATURES
+	o flag in transfig/Imakefile to use "\usepackage" for LaTeX2e instead of
+	  "\documentstyle" for LaTeX209.  See README file.
+	o fig2dev now handles the bitmap formats (GIF, JPEG etc) instead of xfig,
+	  so there is more consistent output. Requires the (free) netpbm package.
+	  See the README file.
+	o tiff (no compression) and AutoCad (acad) output languages added
+	o image quality (0-100) is selectable for JPEG export (-q option)
+	o PNG export driver added
+
+BUGS FIXED
+	o changed XPM variables to default X include/library in fig2dev/Imakefile
+	o remove PageSize comment if EPS (no showpage)
+	o bug in colormap for imported grayscale JPEG files
+	o "rs gr" sequence after imported eps file changed to "restore grestore"
+	  in case imported eps file had defined either "rs" or "gr"
+	o There was a bug in the EPIC driver when drawing backward arrows - in
+	  several places in genepic.c draw_arrow_head is called with unconverted
+	  coordinates, which leads to totally displaced arrows.
+	  from Heiko Schroeder (heiko@linux.local.de)
+	o cleanup of dictionary wrapped around imported EPS files
+	  from Franz Koch (franz.koch@zdv.uni-tuebingen.de)
+	o pic output didn't produce dashed or dotted arc
+	o metric flag incorrectly parsed
+	o strcasecmp and strncasecmp bugs (s2 != '\0' and s2 == '\0' should
+	  be *s2 ...)
+	o error in JPEGINCDIR in fig2dev/Imakefile
+	o rec_array wasn't being freed in gendev_objects (fig2dev.c)
+	o thicklines not being set properly for LaTeX output
+	o two-point splines looped infinitely on some machines
+	  fixed by Jeff Dairiki <dairiki@kalman.apl.washington.edu>
+	o arrowheads weren't correct on tight arcs in eepic output
+	  fixed by Wolfgang Reissenberger <reissenb@veilchen.informatik.uni-stuttgart.de>
+	o TransFig now uses \usepackage instead of \documentstyle, which is old
+	  From Klaus Georg Barthelmann (barthel@Informatik.Uni-Mainz.DE)
+	o fill pattern of rotated ellipses was rotated itself
+	o Ledger/Tabloid sizes reversed (Tabloid is 11x17", Ledger is 17x11")
+	o bounding box of text more accurate for text with/without descenders
+	o added USEINLINE variable in Imakefile to use compiler inline functions
+	o removed ANSI prototypes from spline routines in trans_spline.c
+
+------------------------------
+Version 3.2 Beta (Jan 9, 1997)
+------------------------------
+
+NEW FEATURES
+
+o multi-page, paper size, magnification and transparent color stored in Fig
+	file now.  (transparent color is only used by xfig when exporting
+	to GIF format)
+o comment that Redhat Linux users may have to change DBMLIB to -ldb in
+	fig2dev/Imakefile
+o figures in landscape are only rotated when showpage command is NOT used
+	(-P).  This is because it doesn't need to be rotated for EPS,
+o previous spline models (interpolated splines and approximated splines) are
+  replaced by one single model (x-splines) which allows the user to mix
+  interpolated and approximated control points (see the "FORMAT3.2" file
+  from the "xfig" package for details).
+
+BUGS FIXED
+
+o added second % to %%BeginDocument and %%EndDocument
+o garbage values for arrowhead produced when last two points in line were at
+	same coordinate
+o bug in reading multi-line text object
+o showpage now follows restore as per standard
+	from Christopher R. Wren (chris@wren.cambridge.ma.us)
+
+===============================================================================
+Version 3.1
+===============================================================================
+Patchlevel 2a (Jun 4, 1996)
+
+NEW FEATURES
+
+o only need to change XPM defines in fig2dev/Imakefile
+o if your system has the strerror() function (doesn't have sys_errlist) then
+	comment out NEED_STRERROR with an XCOMM comment.
+o new option for PostScript output, "-e" to force figure to edge (flush-left).
+	Useful when the figure was saved with Centering on.
+o point objects (POLYLINE with only one point) have thickness now and will be
+	filled circles if cap style is rounded.  PostScript output only.
+o -A option to scale arrowhead sizes for epic driver
+o can rotate all text (not just left justified) in LaTeX now using \rotatebox.
+	The old restriction is not needed because the epsfig package is
+	required to include ps_tex_t files anyway.
+o new line types - Dash-dot (_.) Dash-dot-dot (_..) and Dash-dot-dot-dot (_...)
+o new paper sizes: "Tabloid", "Ledger", "B", "C", "D", "E", "A0", "A1", "A2",
+	"A3", "A4" and "B5".  See man fig2dev (-z option) for sizes in
+	inches and cm
+
+BUGS FIXED
+
+o double colon (::) needed for .man installation in Imakefiles
+o linewidth wasn't working correctly in epic/eepic driver
+	from Andre Eickler (eickler@db.fmi.uni-passau.de)
+o some versions of imake don't like null parameters in SpecialObjectRule in
+	Imakefile - changed to "NullParameter"
+o the text alignment problem in LaTeX output has been fixed (genlatex.c)
+	From Francky Leyn (Francky.Leyn@esat.kuleuven.ac.be)
+o if the endpoints of a POLYLINE are coincident, the line join parameter will
+	be used to join them (xfig already showed this behavior)
+o redefined $(XPMINCDIR) to $(XPMINC) because some compilers have trouble with
+	header search path with empty "-I"
+o incorrect directory specified for xpm.h in fig2dev/dev/genps.c and readxpm.c
+o changed "ln -s" commands in Imakefiles to "-ln -s" so make will continue if
+	symlinks are already in place
+o back arrows incorrect for splines and lines in epic driver
+o figure was clipped to pagesize even in EPS mode
+o if paper size specified as "Ledger" in landscape mode fig2dev switches to
+	"Tabloid" paper size and vice versa (Tabloid in portrait mode switches
+	to Ledger)
+o segfault when importing jpeg picture with grayscale colormap fixed
+o colormap must be saved before jpeg_finish_decompress or
+	jpeg_destroy_decompress are called in read_JPEG_file()
+o #include <jpeglib.h> changed to #include "jpeglib.h" to ensure corrrect path
+	used to find header file
+o moved %Magnification information in PostScript output after %%BoundingBox
+	(caused problems for some programs interpreting DSC PostScript)
+o incorrect spline line thickness when multiple splines are used
+o arrowheads caused DOMAIN error for asin on very small arcs
+o include ctype.h in fig2dev.h for isascii() and isxdigit() macros
+o removed redundant #ifdef NOSTRSTR from strstr.c because that file is only
+	compiled if system has no strstr()
+o error when using first user-defined color (color 32)
+o fabs(), sin(), cos(), atan() and acos() redefined in genlatex.c, genpictex.c,
+	genpstex.c and gentextyl.c
+o error message about being unable to open eps file was mis-formatted
+o multiple whitespace following "(atend)" in EPS file parsed correctly now
+	from T. Sato (VEF00200@niftyserve.or.jp)
+o extraneous variable in fprintf in genps.c
+	from T. Sato
+o extraneous % in fprintf in genepic.c (set_pattern)
+o multi-page option shifted all pages incorrectly
+o error in scanf format string for reading text from old (Fig 1.3) files
+	from T. Sato
+o error in fprintf format string for virtual font in gentpic driver
+	from T. Sato
+o erroneous "extern" declarations for cur_capstyle and cur_joinstyle in two
+	dev/genps.c functions
+o bug in skip_comment() which prevented some machines from seeing the end of
+	file, giving erroneous "Incorrect format" error
+
+---------------------------
+Patchlevel 2 (Aug 16, 1995)
+
+New Features:
+
+o JPEG (JFIF) pictures objects supported for PostScript output
+o %Magnification: comment added to PostScript output showing magnification
+o the points of arrow heads don't protrude past the endpoints of the object
+
+Bugs Fixed:
+
+o the radius of arc-box corners is limited to the half of the smaller of the
+	two sides of the box to avoid PostScript errors
+o pstex driver incorrectly omitted postscript text in pstex output
+o set_linewidth was passed double instead of int from fdraw_arrow_head
+	in genepic.c
+o length of dotted line dots too small for high resolution printers
+o recursion bug fixed where run-time would increase exponentially with nesting
+	of compound objects
+o %%BeginDocument:/EndDocument now surrounds imported EPS files
+o open arrowheads on arcs were overwritten by arc lines
+o bug in pattern fill code which made patterns appear solid black when
+	using dvips
+	Thanks to Tomas Rokicki (rokicki@CS.Stanford.EDU) for finding the fix
+o line thickness wasn't adjusted for new resolution in epic, eepic, pic, tpic
+	and pictex drivers
+o dash length incorrect for Fig 3.x files in pic and pictex drivers
+o -s option to fix text pointsize wasn't being honored
+o documentation typo with regard to rigid text.  Rigid text means that the font
+	size doesn't change when text is inside a compound object and that
+	object is scaled in xfig.  Not used for fig2dev.
+o certain machines don't handle atan2(y,0.0) so arcs with endpoints having the
+	same x value were incorrectly calculated
+o some machines don't calculate hypot(x,y) correctly so changed to sqrt(x*x+y*y)
+	in arc_bound()
+o bug in calculating BoundingBox for PostScript in compound objects
+o cleared up confusion about -DNFSS and -DEPSF.  Here is the final word:
+
+  Add -DNFSS to DEFINES list to use NFSS2 font selection for LaTeX texts
+  Add -DEPSF to DEFINES list to use epsfig macros as distributed w/ LaTeX2e
+
+ 	Hint: Users of LaTeX2e will probably want to include both of these
+ 	options; users of LaTeX 2.09 will probably want to include neither.
+
+o new tints added (fill values 21-40) and arrowhead types for epic driver
+     from Andre Eickler (eickler@db.fmi.uni-passau.de)
+o pattern fill seg faulted for epic/eepic output (only PostScript has patterns)
+o sanity check for font number
+o font name "Modern" changed to more correct "Sans Serif" in documentation
+o MetaFont driver only sent output to stdout
+o version information (fig2dev -V) said "TransFig" instead of "fig2dev"
+o getopt.c not needed for Solaris - #if (defined(...)) added in Imakefile
+	for this
+o removed duplicate #define of FALSE, TRUE and DEFAULT_FONT_SIZE in various
+	drivers
+
+---------------------------
+Patchlevel 1 (Jan 24, 1995)
+
+Bugs Fixed:
+
+o eps files with binary data (!) now handled correctly
+o -f option to PostScript driver with unknown PostScript font name caused
+	seg fault
+o increased resolution of unitlength specifier in latex/epic drivers - was
+	rounding 0.00083333 to 0.0008.
+o dash length not set correctly for epic driver
+o area fill values incorrectly interpreted for some drivers other than
+	PostScript - this also made fig2dev outpus spurious %s%s(%d%d)}
+	for epic/eepic
+o linejoin set instead of linecap in postscript output
+o sets linecap to ROUND for ellipses and closed splines with dotted lines
+o defines showpage as null for included EPS files instead of removing the
+	word "showpage" from them
+o definition for XCOMM in Imakefiles for those running R4
+o bug in freeing xpm image structure incompatible pointer type
+o bug in fig2dev/Imakefile variable for including -ldbm explicitly
+o removed -lnsl option from fig2dev/dev/Imakefile - imake files should
+	automatically add this to the Makefile for Solaris (SVR4) systems
+o note added to README that you must do "make" before "make install"
+o bug in reading text for linux os - text size was set to 0
+o bcopy changed to memcpy call in dev/readpics.c
+o SVR4 condition added to transfig/transfig.h for including string.h
+o variable in fig2dev/Imakefile and fig2dev/dev/Imakefile for include
+	directory for xpm files if your xpm headers are not in the default X11
+	include directory
+
+--------------------------
+Patchlevel 0 (Jan 9, 1995)
+
+o NOTE:	An error in xfig version 3.0.0 incorrectly positioned objects on the
+	canvas when reading older fig files.  New objects entered with 3.0 are
+	correctly positioned.
+	I apologize for the inconvenience.
+*****	This is the only reason why the file protocol number has changed.
+
+Bugs Fixed:
+
+o error when figure was larger or partially off the page and user did not
+	select multipage option (-M)
+o newline() declared twice (inconsistently) in dev/gentpic.c
+o errors in read.c for linux machines - caused font size 0
+o Linux machines need LOCAL_LDFLAGS = -ldbm in fig2dev/Imakefile
+o sys/types.h needed in dev/readpics.c for BSD machines
+
+===============================================================================
+Version 3.0
+===============================================================================
+Transfig version 3.0.0 (Dec 22, 1994)
+
+New Features:
+
+o MetaFont driver added (from fig2mf)
+	from Anthony Starks (ajs@merck.com)
+o "-n name" option to specify filename for PostScript Title (e.g. when using
+	stdin)
+o -x <offset> and -y <offset> options for PostScript output to shift figure on
+	page.
+o fig2dev/dev/Imakefile settings to:
+     1. Use LaTeX2e commands for setting fonts. As LaTeX2e will become the
+	official release by spring this year (we redefined the start of
+	spring to be the date the LaTeX is released). This is a subtle
+	problem in the outcome of transfig, but some old font changing
+	commands behave differnet now.
+     2. To use the \epsfig-package distributed with LaTeX2e instead
+	of \special{psfile... for included PS-figures.
+   They use two new defines in the dev/Imakefile: -DNFSS for 1., -DEPSF for 2.
+   From Hendrik G. Seliger (hank@blimp.automat.uni-essen.de)
+o arrow heads are pointed now for PostScript (they were blunt before)
+o EPS Objects have been generalized to Picture Objects. Currently EPS, XBM
+	XPM (X11 color pixmap) and GIF formats are recognized.
+	Compressed (.Z) and gzipped (.z or .gz) files are also handled.
+o new command-line option '-z' for PostScript output used to select a paper
+	size from the list of A4, B5, Letter, Legal.
+	from Jon Roma (roma@ux1.cso.uiuc.edu)
+o change to the pstex driver so that when it sees text with a LaTeX font it
+	handles it using the LaTeX text object routine, but not treating it
+	as "special" text. This allows the pstex driver to take the "hint"
+	the since the user is using LaTeX font specifiers, those should be
+	used. The only people who could be adversely affected by the change
+	would be those using LaTeX font names as convenient synonyms for
+	PS font names who would now get LaTeX fonts instead. Probably not
+	a problem.
+	from Micah Beck (beck@cs.utk.ecu)
+o fig2ps2tex.sh for systems which don't have csh or dc.  Uses bc and awk.
+	from Dave Raymond (raymond@kestrel.nmt.edu)
+
+
+o changes to the file format (protocol).  See *xfig* Doc/FORMAT3.0 for details.
+	Transfig will still read older Fig file formats.
+Here are the features involving change to the protocol:
+   o portrait/landscape, justification (center or flush left) and metric/inches
+	indicators saved with figure file so is not necessary to supply the
+	command-line args to specify them.  However they will override the file
+	specification if given.
+   o separate border and fill colors.
+   o resolution is increased from 80 ppi to 1200 ppi.  This decreases jaggies.
+	A side effect is that fig2dev can now read Fig files of any resolution.
+   o there are now 32 colors - new ones are: gold, three shades each of blue,
+	green, cyan, red, magenta, brown and pink.
+   o in addition, there are now user-definable colors which are stored in the
+	figure file as pseudo-objects of type 0 which define the rgb values
+	in hexadecimal.  The color numbers range from 32 to 543 for a maximum
+	of 512 user-defined colors.
+   o more fill options - colors transition from black to full saturation
+	(shades) and on to full white (tints, i.e. pastels).
+	Or you can use one of 16 fill patterns - diagonal lines, bricks,
+	shingles, crosshatch etc.
+   o three line-join styles: miter (current style), round and bevel (see
+	PostScript or Xlib reference for description)
+   o three line-cap styles: butt (current style), round and projecting (see
+	PostScript or Xlib reference for description)
+
+Bugs fixed:
+
+o circles/ellipses paths weren't being closed in postscript output - gap closed
+o "%%Page: 1 1" added for single-page output for Document Structuring Compliancy
+	(previously, Page: comment only appeared in multi-page figures)
+o coord_system was declared extern in fig2dev/fig2dev.h.  This was incorrect.
+o even/odd rule fill now used for filled objects as per xfig (PostScript)
+o typo in fig2dev/dev/Imakefile said include -DA4d instead of -DA4 for A4 paper
+o all orientations of rotated/flipped EPS objects correctly done now
+o man pages for transfig claims to be able to read postscript files - this was
+	never finished so it has been removed from the man pages.
+o dotted lines with very small length caused SIGFPE
+o typo in error message about unknown option
+o added check for #if defined(SVR4) in addition to defined(SYSV)
+o misplaced ';' in fig2dev.c gendev_null() proc
+o added static declarations in genlatex.c genpictex.c and gentextyl.c
+o better bounding box calculation
+	from Uwe Bonnes (bon@lte.e-technik.uni-erlangen.de)
+o Tpic TeX font position 5 was "sl" (slanted) which doesn't exist
+	from Edward Wang (edward@cs.berkeley.edu)
+
+===============================================================================
+Version 2.1
+===============================================================================
+
+Transfig version 2.1.8 (Oct 1, 1993)
+
+New Features:
+
+Bugs fixed:
+
+o thick line threshold increased from 1 to 2 for latex lines
+o save/restore wraps EPS objects now
+o specifing nonexistant font with -f caused coredump
+	from Gordon W. Ross (gwr@jericho.mc.com)
+o newpath command given before EPS object for PostScript output
+o moved definition of SetFigFont to better place
+	from Bernd Raichle (raichle@isr.uni-stuttgart.de)
+o #included sys/types for BSD4_3 systems in genps.c
+o bug in eepic output - SetFigFont was being defined inside a \put
+	from Vivek Khera (khera@cs.duke.edu)
+o BoundingBox for EPS objects can be floating values
+o shortened file name (fig2dev/dev/)def_setfigfont.c to setfigfont.c
+o distribution version of fig2dev/dev/Makefile had (def_)setfigfont.c
+	instead of (def_)setfigfont.o in LIBOBJS definition
+o SUBDIR fig2dev/dev was missing from top-level Imakefile caused problems
+	where make would say something like "No rule to make target
+	dev/libtransfig.a"
+
+----------------------
+Transfig version 2.1.7
+
+o no longer writes over input file if there is an error in the command line
+o added "%%Orientation: Landscape" comment for PostScript output in landscape
+	orientation
+o moved definition of SetFigFont from transfig into genpstex.c so that there
+	is no need to run transfig for pstex output
+o script pic2tpic was generating \ss instead of \sf for \fH
+	from Mark Roth (mroth@afit.af.mil)
+o changed header for Encapsulated postscript files from "%!PS-Adobe-2.0 EPSF"
+	to "%!PS-Adobe-2.0 EPSF-2.0" which allows FrameMaker and ghostview to
+	read them properly.
+	from Vivek Khera (khera@cs.duke.edu)
+o check for #ifdef SYSV to include string.h instead of strings.h in
+	fig2dev/dev/genibmgl.c
+o changed EXTRA_LIBRARIES to SYS_LIBRARIES in fig2dev/Imakefile so wouldn't
+	clobber system-dependent flags in EXTRA_LIBRARIES
+o fprintf and 'else' missing from genepic which caused incorrect information
+	to be generated when drawing arcs using epic output
+o removed dependencies on the X libraries (Imakefiles and Makefiles)
+o SGI machines had trouble with hypot() which caused arrow heads to mess up
+	from Malcolm Davis (davis@nod.bms.com)
+o Flipped EPS objects were incorrectly flipped on output
+	from Brian Boyter (boyter@pyrdc.va.pyramid.com)
+o POLYLINES were being drawn in sections (10 points per section) which
+	resulted in incorrect dashed line lengths and only one section
+	filled if area fill was on
+	from Peter Egelberg (egel@neural.se)
+o added Sequent machines and Suns with SunOs < 4.1 to list of machines that
+	don't have strstr()
+	from Scott Erikson (sources@ics.uci.edu)
+o removed PATCHLEVEL from patchlevel.h file - version number is complete with
+	three parts (e.g. 2.1.6)
+o removed "extern coord_system" from fig2dev.h (wasn't used by fig2dev)
+o SPECIAL_CHAR split into three strings for systems which can't handle one
+o -P flag dissappeared from eepic output language - reinstated
+
+-------------
+Version 2.1.6
+
+o Courier-BoldItalic changed to Courier-BoldOblique for PostScript fonts
+o "if" statement replaces copysign() call since some machines don't have it
+o some backslashes ('\') corrected in printf statements in transfig/mkfile.c and
+	fig2dev/iso2tex.c
+o changed header for postscript files from "%!" to "%!PS-Adobe-2.0" when using
+	-P (showpage) option and "%!PS-Adobe-2.0 EPSF" otherwise (Encapsulated)
+o corrupt transfig/Imakefile and typo (SCRS instead of SRCS)
+o some variables (cur_thickness and coord_system) were multiply defined in
+	various drivers in fig2dev/dev - made those static

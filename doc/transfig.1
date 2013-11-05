@@ -1,0 +1,137 @@
+.TH TRANSFIG 1 "Version 3.2.4 November 2002"
+.SH NAME
+transfig \- creates a makefile for portable LaTeX figures
+.SH SYNOPSIS
+.B transfig
+[ -L \fIlanguage\fR ]
+[ -M \fImakefile\fR ]
+[ -T \fItexfile\fR ]
+[ -I \fImacrofile\fR ]
+[ -V ] 
+[ \fIcontrol_specs\fR figfile ... ]
+.SH DESCRIPTION
+.I Transfig
+creates a makefile to translate figures described in Fig code
+or PIC into a specified LaTeX graphics \fIlanguage\fR.
+PIC files are identified by the suffix ".pic";
+Fig files can be specified either with or without the suffix ".fig" .
+Transfig also creates a TeX macro file appropriate to the target language.
+.SH OPTIONS
+The \fIlanguage\fR specifier must be one of
+.BR box,
+.BR cgm,
+.BR eepic,
+.BR eepicemu,
+.BR emf,
+.BR epic,
+.BR eps,
+.BR ge,
+.BR gif,
+.BR ibmgl,
+.BR jpeg,
+.BR latex,
+.BR map,
+.BR mf,
+.BR mmp,
+.BR mp,
+.BR pcx,
+.BR pdf,
+.BR pdftex,
+.BR pdftex_t,
+.BR pic,
+.BR pictex,
+.BR png,
+.BR ppm,
+.BR ps,
+.BR psfig,
+.BR pstex,
+.BR pstex_t,
+.BR ptk,
+.BR sld,
+.BR textyl, 
+.BR tiff,
+.BR tk,
+.BR tpic,
+.BR xbm,
+.BR xpm
+or
+.BR null .
+The specifier
+.B psfig
+is like the 
+.B ps
+specifier, except that it
+make use of the psfig macro package.
+The specifier
+.B pstex
+is like
+.B psfig,
+except that it uses LaTeX to process formatted (special) text.
+The specifier 
+.B null
+results in the figures being replaced by empty boxes of the
+appropriate size.
+If no language is specified,
+.B epic
+is the default.
+.PP
+The names of the makefile and TeX macro file can be set with the
+-M and -T options.
+The default names are "Makefile" and "transfig.tex", respectively.
+If there is already an existing \fImakefile\fR in the directory, transfig
+first renames it to \fImakefile~\fR.  The same holds for any existing TeX macro file.
+If the -I option is specified, then a command to read in \fImacrofile\fR is
+	inserted into the TeX macro file.
+If the -V option is specified, the program version number is printed only.
+.PP
+Control specifiers are 
+.TP
+\fB\-m\fI mag\fR
+set the magnification at which the figure is rendered (default 1.0).
+.TP
+\fB\-f\fI font\fR
+set the default font family used for text objects (default "\fBrm\fR").
+.TP
+\fB\-s \fIfontsize\fR
+set the default font size (in points) for text objects (default 11*\fImag\fR).
+.TP
+\fB\-o \fIoption\fR
+pass the specified option string through to fig2dev.
+.PP
+If there is no scaling, the default font is an eleven point roman font.
+Language and control specifiers may occur more than once;
+they affect the translation of files which appear to their
+right in the argument list. 
+If no files are specified, then "*.fig" is assumed.
+.SH "SEE ALSO"
+fig(l),
+fig2dev(l),
+pic(l),
+pic2fig(l),
+xfig(l)
+.SH COPYRIGHT
+Copyright (C) 1985 Supoj Sutantavibul
+.br
+Copyright (C) 1991 Micah Beck
+.br
+Parts Copyright (C) 1991-2002 Brian Smith
+.LP
+THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+.LP
+Any party obtaining a copy of these files is granted, free of charge, a
+full and unrestricted irrevocable, world-wide, paid up, royalty-free,
+nonexclusive right and license to deal in this software and
+documentation files (the "Software"), including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons who receive
+copies from any such party to do so, with the only requirement being
+that this copyright notice remain intact.
+
+.SH AUTHOR
+Micah Beck

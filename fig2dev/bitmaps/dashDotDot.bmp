@@ -1,0 +1,4 @@
+#define dashDotDot_width 16
+#define dashDotDot_height 1
+static char dashDotDot_bits[] = {
+   0x47, 0xe2};

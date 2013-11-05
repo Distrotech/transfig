@@ -1,0 +1,16 @@
+#!/bin/csh 
+echo This will make the fig2dev.ps and transfig.ps files,
+echo and then the PDF files.
+echo -n psroffing fig2dev.1 ...
+psroff -t -man fig2dev.1 > fig2dev.ps
+echo done
+echo -n making fig2dev.pdf
+ps2pdf fig2dev.ps
+echo done
+echo -n psroffing transfig.1 ...
+psroff -t -man transfig.1 > transfig.ps
+echo done
+echo -n making transfig.pdf
+ps2pdf transfig.ps
+echo done
+ls -l fig2dev.* transfig.*

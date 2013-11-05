@@ -1,0 +1,6 @@
+PLEASE NOTE:  This guide is hopelessly out of date.
+
+This directory contains a manual which describes TransFig and how to use it.
+The manual includes TransFig figures, which have been translated into
+LaTeX picture environment commands.  To generate the manual, just run
+"latex manual".

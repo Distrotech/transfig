@@ -1,0 +1,4 @@
+#define dash_width 8
+#define dash_height 1
+static char dash_bits[] = {
+   0x1f};
